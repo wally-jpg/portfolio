@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500&family=Work+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --off-white: #fafaf8;
+            --charcoal: #1a1a1a;
+            --mid-gray: #666;
+            --light-gray: #e8e8e6;
+            --accent: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--off-white);
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Cormorant', serif;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 6vw 2rem;
+            border-bottom: 1px solid var(--light-gray);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .site-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+
+        .site-subtitle {
+            font-size: 1rem;
+            color: var(--mid-gray);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        nav {
+            margin-top: 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--charcoal);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        main {
+            padding: 6rem 6vw;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 8rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        section:nth-child(1) { animation-delay: 0.2s; }
+        section:nth-child(2) { animation-delay: 0.4s; }
+        section:nth-child(3) { animation-delay: 0.6s; }
+
+        .section-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mid-gray);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .film-year {
+            color: var(--mid-gray);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            font-family: 'Work Sans', sans-serif;
+        }
+
+        /* Film Grid */
+        .film-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .film-still {
+            aspect-ratio: 16/9;
+            background: var(--light-gray);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+
+        .film-still:hover {
+            transform: scale(1.02);
+        }
+
+        .film-still::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .film-still:hover::after {
+            opacity: 1;
+        }
+
+        .still-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant', serif;
+            font-size: 1.2rem;
+            color: var(--mid-gray);
+        }
+
+        /* Trailer Section */
+        .trailer-container {
+            aspect-ratio: 16/9;
+            background: var(--charcoal);
+            margin: 3rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--off-white);
+            font-family: 'Cormorant', serif;
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trailer-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255,255,255,0.03) 0%, transparent 50%);
+        }
+
+        /* In Production Section */
+        .in-production {
+            background: var(--light-gray);
+            padding: 4rem;
+            margin-top: 3rem;
+        }
+
+        .in-production h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .in-production p {
+            color: var(--mid-gray);
+            max-width: 600px;
+        }
+
+        .production-status {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            background: var(--charcoal);
+            color: var(--off-white);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--charcoal);
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            margin-top: 2rem;
+        }
+
+        .contact-info a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-right: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .contact-info a:hover {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 6vw;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+            color: var(--mid-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header, main, footer {
+                padding-left: 5vw;
+                padding-right: 5vw;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .film-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .in-production {
+                padding: 2rem;
+            }
+
+            .contact-info a {
+                display: block;
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="site-title">Your Name</h1>
+        <p class="site-subtitle">Filmmaker</p>
+        <nav>
+            <ul>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="work">
+            <div class="section-label">Selected Work</div>
+            
+            <!-- Completed Film -->
+            <article>
+                <h2>Film Title</h2>
+                <p class="film-year">2024 • Short Film • 12 min</p>
+                
+                <div class="trailer-container">
+                    <div>Embed your trailer here (Vimeo/YouTube)</div>
+                </div>
+
+                <p style="margin: 2rem 0; color: var(--mid-gray); max-width: 700px;">
+                    A brief synopsis of your film. Describe the story, themes, or what makes this project special. 
+                    Keep it compelling and concise—just enough to intrigue viewers.
+                </p>
+
+                <div class="film-grid">
+                    <div class="film-still">
+                        <div class="still-placeholder">Still 01</div>
+                    </div>
+                    <div class="film-still">
+                        <div class="still-placeholder">Still 02</div>
+                    </div>
+                    <div class="film-still">
+                        <div class="still-placeholder">Still 03</div>
+                    </div>
+                    <div class="film-still">
+                        <div class="still-placeholder">Still 04</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- In Production -->
+            <div class="in-production">
+                <h3>Untitled Project</h3>
+                <p>Currently in production. A new short film exploring [brief theme or concept]. Expected completion [season/year].</p>
+                <span class="production-status">In Production</span>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-label">About</div>
+            <div class="about-content">
+                <p>
+                    Write a few paragraphs about yourself as a filmmaker. What draws you to storytelling? 
+                    What themes or styles interest you? What's your background?
+                </p>
+                <p>
+                    This is where you can share your creative philosophy, influences, or what you hope 
+                    to explore in your work. Keep it personal and authentic.
+                </p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-label">Get in Touch</div>
+            <div class="contact-info">
+                <a href="mailto:your.email@example.com">Email</a>
+                <a href="https://instagram.com/yourhandle" target="_blank">Instagram</a>
+                <a href="https://vimeo.com/yourhandle" target="_blank">Vimeo</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+</body>
+</html>
